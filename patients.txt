@@ -1,0 +1,6 @@
+101|Achieng Mary|20|3|Fever and headache|1|W
+102|Okello Peter|22|5|Severe asthma attack|2|W
+103|Nakato Sarah|19|2|Sprained ankle|3|W
+104|Mugisha Brian|21|5|Chest pain|4|W
+105|Namutebi Grace|23|1|Routine check-up|5|T
+106|Kato David|20|3|Stomach pain|6|W
