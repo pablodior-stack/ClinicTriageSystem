@@ -19,10 +19,10 @@ public:
     TriageSystem& operator=(const TriageSystem&) = delete;
 
     // ---- basic record operations ----
-    bool     addPatient(int id, const std::string& name, int age, int severity,
+    bool     addPatient(int id, const std::string& name, int age, int priority,
                         const std::string& complaint);
     Patient* findPatient(int id) const;
-    bool     updatePatient(int id, int newSeverity, const std::string& newComplaint);
+    bool     updatePatient(int id, int newpriority, const std::string& newComplaint);
     bool     deletePatient(int id);               // <-- individual component
     // ---- scenario-specific operations ----
     Patient* treatNext();                         // serve highest priority patient

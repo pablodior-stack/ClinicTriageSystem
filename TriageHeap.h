@@ -15,7 +15,7 @@ class TriageHeap {
 
     // true if x must be served BEFORE y
     static bool higher(const Patient* x, const Patient* y) {
-        if (x->severity != y->severity) return x->severity > y->severity;
+        if (x->priority != y->priority) return x->priority > y->priority;
         return x->arrival < y->arrival;
     }
     void place(size_t i, Patient* p) { a[i] = p; pos[p->id] = i; }

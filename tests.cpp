@@ -54,7 +54,7 @@ int main() {
     { TriageSystem s; std::srand(7); for (int i=1;i<=1000;i++) s.addPatient(i,"P",20,1+std::rand()%5,"x");
       s.rebuildQueue(); bool ok=true; size_t n=0; Patient last{};
       while (s.peekNext()) { Patient cur=*s.peekNext(); s.treatNext(); ++n;
-        if (n>1) ok = ok && (last.severity>cur.severity || (last.severity==cur.severity && last.arrival<cur.arrival));
+        if (n>1) ok = ok && (last.priority>cur.priority || (last.priority==cur.priority && last.arrival<cur.arrival));
         last=cur; }
       check("R8", ok && n==1000); }                                                                           // 1000 patients ordered
     { TriageSystem s; for (int i=1;i<=10;i++) s.addPatient(i,"P",20,1+i%5,"x");

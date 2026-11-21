@@ -1,4 +1,4 @@
-# University Clinic Triage System (BCS 2204 - Group Coursework 2, Scenario 2)
+# University Clinic Triage System (Group Coursework 2, Scenario 2)
 
 Priority-queue triage: the most critical patient is always served next.
 
@@ -13,7 +13,7 @@ Priority-queue triage: the most critical patient is always served next.
     g++ -std=c++17 -Wall -Wextra -o tests tests.cpp TriageSystem.cpp && ./tests
 
 ## Data file format (`patients.txt`)
-`id|name|age|severity(1-5)|complaint|arrival|W(waiting) or T(treated)`
+`id|name|age|priority(1-5)|complaint|arrival|W(waiting) or T(treated)`
 
 ## Files
 | File | Purpose |

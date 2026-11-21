@@ -46,13 +46,13 @@ static std::string readText(const std::string& prompt, bool allowEmpty = false) 
 }
 static void menu() {
     std::cout << "\n===== UNIVERSITY CLINIC TRIAGE SYSTEM =====\n"
-                 " 1. Register patient\n 2. Search patient\n 3. Update severity\n"
+                 " 1. Register patient\n 2. Search patient\n 3. Update priority\n"
                  " 4. Delete patient\n 5. Treat next patient\n 6. View waiting queue\n"
                  " 7. View all records (by ID)\n 8. Rebuild queue\n 9. Save\n 0. Save and exit\n";
 }
 static void show(const Patient* p) {
-    std::cout << "  ID " << p->id << " | " << p->name << " | age " << p->age << " | severity "
-              << p->severity << " | " << (p->waiting ? "Waiting" : "Treated") << " | " << p->complaint << "\n";
+    std::cout << "  ID " << p->id << " | " << p->name << " | age " << p->age << " | priority "
+              << p->priority << " | " << (p->waiting ? "Waiting" : "Treated") << " | " << p->complaint << "\n";
 }
 
 int main() {
@@ -67,28 +67,28 @@ int main() {
             if (c == 0) break;
             switch (c) {
             case 1: {
-                int id = readInt("Patient ID (1-999999): ", 1, 999999);
+                int id = readInt("Patient ID (0000-9999): ", 0000, 9999);
                 if (sys.findPatient(id)) { std::cout << "  ID already exists.\n"; break; }
                 std::string name = readText("Name: ");
                 int age = readInt("Age (0-120): ", 0, 120);
-                int sev = readInt("Severity (1=minor ... 5=critical): ", 1, 5);
+                int sev = readInt("priority (1=minor ... 5=critical): ", 1, 5);
                 std::string cmp = readText("Complaint: ");
                 std::cout << (sys.addPatient(id, name, age, sev, cmp) ? "  Registered.\n" : "  Could not register.\n");
                 break; }
             case 2: {
-                int id = readInt("Patient ID: ", 1, 999999);
+                int id = readInt("Patient ID: ",0000, 9999);
                 Patient* p = sys.findPatient(id);
                 if (p) show(p); else std::cout << "  Not found.\n";
                 break; }
             case 3: {
-                int id = readInt("Patient ID: ", 1, 999999);
+                int id = readInt("Patient ID: ", 0000, 9999);
                 if (!sys.findPatient(id)) { std::cout << "  Not found.\n"; break; }
-                int sev = readInt("New severity (1-5): ", 1, 5);
+                int sev = readInt("New priority (1-5): ", 1, 5);
                 std::string cmp = readText("New complaint (blank = keep): ", true);
                 std::cout << (sys.updatePatient(id, sev, cmp) ? "  Updated.\n" : "  Update failed.\n");
                 break; }
             case 4: {
-                int id = readInt("Patient ID to delete: ", 1, 999999);
+                int id = readInt("Patient ID to delete: ", 0000, 9999);
                 Patient* p = sys.findPatient(id);
                 if (!p) { std::cout << "  Not found - nothing deleted.\n"; break; }
                 show(p);

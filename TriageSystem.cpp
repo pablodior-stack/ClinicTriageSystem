@@ -15,10 +15,10 @@ TriageSystem::~TriageSystem() {
 }
 
 // ------------------------------------------------------------------ add / find / update
-bool TriageSystem::addPatient(int id, const std::string& name, int age, int severity,
+bool TriageSystem::addPatient(int id, const std::string& name, int age, int priority,
                               const std::string& complaint) {
-    if (id <= 0 || severity < 1 || severity > 5 || records.count(id)) return false;
-    Patient* p = new Patient{id, name, age, severity, complaint, nextArrival++, true};
+    if (id <= 0 || priority < 1 || priority > 5 || records.count(id)) return false;
+    Patient* p = new Patient{id, name, age, priority, complaint, nextArrival++, true};
     records[id] = p;
     queue.push(p);
     return true;
@@ -29,10 +29,10 @@ Patient* TriageSystem::findPatient(int id) const {
     return it == records.end() ? nullptr : it->second;
 }
 
-bool TriageSystem::updatePatient(int id, int newSeverity, const std::string& newComplaint) {
+bool TriageSystem::updatePatient(int id, int newpriority, const std::string& newComplaint) {
     Patient* p = findPatient(id);
-    if (!p || newSeverity < 1 || newSeverity > 5) return false;
-    p->severity = newSeverity;
+    if (!p || newpriority < 1 || newpriority > 5) return false;
+    p->priority = newpriority;
     if (!newComplaint.empty()) p->complaint = newComplaint;
     if (p->waiting) queue.update(id);             // restore heap order
     return true;
@@ -80,14 +80,14 @@ const Patient* TriageSystem::peekNext() const { return queue.top(); }
 // ------------------------------------------------------------------ reports
 static void header() {
     std::cout << std::left << std::setw(8) << "ID" << std::setw(22) << "Name"
-              << std::setw(5) << "Age" << std::setw(11) << "Severity"
+              << std::setw(5) << "Age" << std::setw(11) << "priority"
               << std::setw(10) << "Status" << "Complaint\n"
               << std::string(70, '-') << "\n";
 }
 static void row(const Patient* p) {
     std::cout << std::left << std::setw(8) << p->id << std::setw(22) << p->name
               << std::setw(5) << p->age
-              << std::setw(11) << (std::to_string(p->severity) + "-" + SEV_NAME[p->severity])
+              << std::setw(11) << (std::to_string(p->priority) + "-" + SEV_NAME[p->priority])
               << std::setw(10) << (p->waiting ? "Waiting" : "Treated")
               << p->complaint << "\n";
 }
@@ -155,7 +155,7 @@ bool TriageSystem::saveToFile(const std::string& path) const {
     for (auto& kv : records) v.push_back(kv.second);
     std::sort(v.begin(), v.end(), [](const Patient* x, const Patient* y) { return x->arrival < y->arrival; });
     for (const Patient* p : v)
-        out << p->id << '|' << p->name << '|' << p->age << '|' << p->severity << '|'
+        out << p->id << '|' << p->name << '|' << p->age << '|' << p->priority << '|'
             << p->complaint << '|' << p->arrival << '|' << (p->waiting ? 'W' : 'T') << '\n';
     return static_cast<bool>(out);
 }
